@@ -14,7 +14,8 @@ opendir(CURDIR, $curdir) or die "Cannot read directory $curdir\n";
 @books = grep {/Book/ig} readdir CURDIR;
 #print @books;
 foreach(@books){
-	&bookRename("$curdir$_");
+	&folderRename($_);
+	&bookRename($curdir."/".$_);
 };
 close(CURDIR);
 
@@ -31,6 +32,13 @@ sub bookRename{
 		rename($oldFile,$newFile);
 	}
 	close(BOOKDIR);
+}
+
+sub folderRename{
+	my $dir = $_[0];
+	if($dir =~ /([a-zA-Z]+)(\d+)$/){
+		rename("$curdir$dir", $curdir."/Book".$2);
+	}
 }
 
 
